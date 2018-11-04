@@ -1,0 +1,19 @@
+{
+    "presets": ["es2017", "env"],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "alias": {
+            "routes": "./src/routes",
+            "controllers": "./src/controllers",
+            "models": "./src/models",
+            "utils": "./src/utils",
+            "middleware": "./src/middleware",
+            "config": "./src/config"
+          }
+        }
+      ]
+    ]
+  }
+  
