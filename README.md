@@ -2,7 +2,14 @@
 
 `Study REST api with Node Js with Express`
 
-## Libs
+## Packager Manager
+- Yarn
+
+## DEV Dependences
+- Babel
+- Nodemon
+
+## Dependences
 
 - Express
 - Bcrypt
