@@ -1,10 +1,10 @@
 'use strict';
 
-import Sequelize from 'sequelize';
+import * as Sequelize from 'sequelize';
 // Connections
 import sequelize from 'config/connectionDatabase';
 
-const User = sequelize.define('users', {
+const User = sequelize.define('Users', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -33,7 +33,7 @@ const User = sequelize.define('users', {
   }
 });
 
-export const ShowUser = sequelize.define('users', {
+export const ShowUser = sequelize.define('Users', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
