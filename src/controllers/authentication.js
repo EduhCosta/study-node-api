@@ -2,38 +2,40 @@
 
 // Authentication
 import jwt from 'jsonwebtoken';
-// Database connection
-import connection from 'config/connectionDatabase';
+import Users from 'models/users';
+// Utils
+import bcrypt from 'bcrypt';
 
 export const login = (req, res, next) => {
   let status = 500, response = '';
-
-  connection.query(`SELECT * FROM users u WHERE u.user = '${req.body.login}'`, 
-    (err, results, fields) => {
-      if (err) throw err;
-      if (results.length <= 0 || results[0].password !== req.body.password) {
-        status = 500;
-        response = {
-          statusCode: '500',
-          success: false,
-          message: 'User/Password is not exists or is incorrect!'
-        };
-      } else {
-        const id = results[0].id;
-        const token = jwt.sign({ id }, process.env.SECRET, {
-          expiresIn: 300 // expires in 5min
-        });
-        status = 200;
-        response = { 
-          auth: true, 
-          name: results[0].name,
-          token: token
-        };
-      }
-      res.status(status).send(response);
+  Users.find({ where: { nickName: req.body.login } }).then(user => {
+    if (!bcrypt.compareSync(req.body.password, user.password)) {
+      status = 403;
+      response = {
+        statusCode: '403',
+        success: false,
+        message: 'User/Password is not exists or is incorrect!'
+      };
+    } else {
+      const id = user.id;
+      const token = jwt.sign({ id }, process.env.SECRET, {
+        expiresIn: 300 // expires in 5min
+      });
+      status = 200;
+      response = { 
+        auth: true, 
+        name: user.name,
+        token: token
+      };
     }
-  );
-  
+    return  res.status(status).send(response);
+  })
+  .catch(e => {
+    res.status(400).send({
+      message: e.parent.sqlMessage,
+      data: e
+    });
+  });
 };  
 
 

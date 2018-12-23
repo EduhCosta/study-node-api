@@ -10,7 +10,7 @@ export default ({
         return queryInterface.bulkInsert('Users', [{
             name: 'Eduardo Costa',
             email: 'eduhcosta@live.com',
-            nickName: 'EduhCosta',
+            nickName: 'Eduh',
             team: 'SOLO',
             cpf: 12312312312,
             password: commonPassword,
